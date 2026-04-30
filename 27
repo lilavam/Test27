@@ -1,0 +1,162 @@
+#include <iostream>
+#include <Windows.h>
+#include <ctime>
+using namespace std;
+
+bool checkDuplicate(int array[][4], int rows, int number) {
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < 4; j++) {
+			if (array[i][j] == number) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+int main() {
+	srand(time(NULL));
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+
+	int number = rand() % 49;
+	const int SIZE1 = 3;
+	const int SIZE2 = 4;
+	int activity;
+	int asd;
+	bool end = true;
+	bool end_number = true;
+	int new_stroc = 0;
+
+	int position[SIZE1][SIZE2]{};
+	int array[SIZE1][SIZE2]{
+		{-1, -1, -1, -1},
+		{-1, -1, -1, -1},
+		{-1, -1, -1, -1},
+	};
+	string color[SIZE1][SIZE2]{
+		{"\x1b[0m", "\x1b[0m", "\x1b[0m", "\x1b[0m"},
+		{"\x1b[0m", "\x1b[0m", "\x1b[0m", "\x1b[0m"},
+		{"\x1b[0m", "\x1b[0m", "\x1b[0m", "\x1b[0m"},
+	};
+	cout << "Это масив" << endl << endl;
+	for (int i = 0; i < SIZE1; i++) {
+		for (int j = 0; j < SIZE2; j++) {
+
+			number = rand() % 49;
+			while (checkDuplicate(array, SIZE1, number)) {
+				number = rand() % 49;
+			}
+
+
+			if (number >= 10 and number <= 20) {
+				color[i][j] = "\x1b[32m";
+			} // if
+			if (number > 20 and number <= 30) {
+				color[i][j] = "\x1b[34m";
+			} // if
+			if (number > 30 and number <= 40) {
+				color[i][j] = "\x1b[31m";
+			} // if
+			if (number > 40) {
+				color[i][j] = "\x1b[33m";
+			} // if
+			array[i][j] = number;
+			if (number < 10) {
+				cout << color[i][j] << array[i][j] << "\x1b[0m";
+				cout << "   ";
+			} // if
+			else {
+				cout << color[i][j] << array[i][j] << "\x1b[0m";
+				cout << "  ";
+			}
+		} //for
+		cout << endl;
+	} // for
+
+	cout << endl << "Как вы хотите отсортировать массив?" << endl << endl << "1.По убыванию" << endl << "2.По возрастанию" << endl << endl << "Ввод: ";
+	cin >> activity;
+
+	if (activity == 1) {
+		system("cls");
+		for (int i = 0; i < SIZE1; i++) {
+			for (int j = 0; j < SIZE2; j++) {
+				for (int a = 0; a < SIZE1; a++) {
+					for (int b = 0; b < SIZE2; b++) {
+						if (array[i][j] > array[a][b]) {
+							position[a][b]++;
+						}
+					}
+				}
+			}  // for внутри
+		} //for
+
+		for (int i = 0; i < SIZE1 * SIZE2; i++) {
+			asd = 0;
+			if (new_stroc == SIZE2) {
+				new_stroc = 0;
+				cout << endl;
+			}
+			new_stroc++;
+			end = true;
+			for (int j = 0; j < SIZE1; j++) {
+				while (end) {
+					if (position[j][asd] == i) {
+						if (array[j][asd] < 10) {
+							cout << color[j][asd] << array[j][asd] << "\x1b[0m";
+							cout << "   ";
+						} // if
+						else {
+							cout << color[j][asd] << array[j][asd] << "\x1b[0m";
+							cout << "  ";
+						}
+						end = false;
+					} // if
+					asd++;
+				} // while
+			} // for
+		} // for
+
+	}//if
+
+	else {
+		system("cls");
+		for (int i = 0; i < SIZE1; i++) {
+			for (int j = 0; j < SIZE2; j++) {
+				for (int a = 0; a < SIZE1; a++) {
+					for (int b = 0; b < SIZE2; b++) {
+						if (array[i][j] < array[a][b]) {
+							position[a][b]++;
+						}
+					}
+				}
+			}  // for внутри
+		} //for
+
+		for (int i = 0; i < SIZE1 * SIZE2; i++) {
+			asd = 0;
+			if (new_stroc == SIZE2) {
+				new_stroc = 0;
+				cout << endl;
+			}
+			new_stroc++;
+			end = true;
+			for (int j = 0; j < SIZE1; j++) {
+				while (end) {
+					if (position[j][asd] == i) {
+						if (array[j][asd] < 10) {
+							cout << color[j][asd] << array[j][asd] << "\x1b[0m";
+							cout << "   ";
+						} // if
+						else {
+							cout << color[j][asd] << array[j][asd] << "\x1b[0m";
+							cout << "  ";
+						}
+						end = false;
+					} // if
+					asd++;
+				} // while
+			} // for
+		} // for
+	}
+} //main
