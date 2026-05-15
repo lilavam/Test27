@@ -1,0 +1,104 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <string>
+#include <Windows.h>
+#include <iomanip>
+#include <ctime>
+using namespace std;
+// для вывода текста // cout << "\nТекст: \n"; cout << file[number] << endl;
+
+// time_t saveTime = time(0);
+// cout << put_time(localtime(&saveTime), "%Y-%m-%d %H:%M:%S");
+int main() {
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+
+	const int SIZE = 100;
+	string line;
+	string file[SIZE]{};
+	string file_name[SIZE]{};
+	time_t saveTime[SIZE]{};
+
+	int number = 0;
+	bool full_end = true;
+	int action;
+
+	while (full_end) {
+		system("cls");
+		cout << "Редктор текста" << endl << endl << "1. Создать файл" << endl << "2. Загрузить файл" << endl << "3. Настройки" << endl << "4. Выход" << endl << endl << "Выберите действие: ";
+		cin >> action;
+
+		switch (action) {
+
+		case 1: {
+			system("cls");
+			char save = '0';
+			cout << "Чтобы зактрыть введите '!q'" << endl << "Чтобы сохраните введите '!s'" << endl << "Введите текст : " << endl;
+			while (getline(cin, line) && line != "!q") {
+				if (line == "!s") {
+					save = '1';
+				} // if
+				file[number] += line + "\n";
+			} // while
+			system("cls");
+			if (save != '1') {
+				cout << "Вы не сохранили файл!" << endl << "Сохранить файл?" << endl << endl << "1. Да" << endl << "2. Нет" << endl << endl << "Выберите действие: ";
+				cin >> action;
+				if (action == 1) {
+				}
+				else {
+					file[number] = "";
+					break;
+				}
+			}
+			system("cls");
+
+			cout << "Введите название файла: ";
+			cin >> file_name[number];
+			saveTime[number] = time(0);
+			number++;
+			break;
+		} // case 1
+
+		case 2: {
+			system("cls");
+			if (number == 0) {
+				cout << "Вы пока не создали не одного файла" << endl << "Чтобы выйти в меню, нажмите на любую клавишу" << endl;
+				cin >> line;
+				break;
+			}
+			cout << "Номер Название      Дата        Время" << endl;
+			for (int i = 0; i < number; i++) {
+				if (i < 9) {
+					cout << i + 1 << "     " << file_name[i] << "      " << put_time(localtime(&saveTime[i]), "%Y-%m-%d   %H:%M:%S") << endl;
+				}
+				else {
+					cout << i + 1 << "    " << file_name[i] << "      " << put_time(localtime(&saveTime[i]), "%Y-%m-%d   %H:%M:%S") << endl;
+				}
+			}
+			cout << endl << "Чтобы выйти введите '0'" << endl << "Выберите файл: ";
+			cin >> action;
+			system("cls");
+			if (action != 0) {
+				cout << "Файл: " << file_name[action - 1] << endl;
+				cout << file[action - 1] << endl;
+				cout << endl << "Чтобы выйти в меню, нажмите на любую клавишу";
+			}
+			else {
+				break;
+			}
+			cin >> line;
+			break;
+		} // case 2
+		case 3: {
+			system("cls");
+			cout << "Настройки" << endl;
+			cin >> action;
+			break;
+		} // case 3
+		case 4: {
+			return 0;
+		} // case 4
+		} // switch
+	} // while
+} // main
